@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Child Element Quiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 600px; margin: auto; }
+        .question { margin-bottom: 10px; }
+        .result { display: none; margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Child Element Personality Quiz</h2>
+    <form id="quiz-form">
+        <div id="questions"></div>
+        <button type="submit">Get Results</button>
+    </form>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    const questions = {
+        "Wood": [
+            "Does your child enjoy trying new things and taking on challenges?",
+            "Does your child learn physically?",
+            "Does your child twitch and squirm?",
+            "Does your child dislike being told what to do or feeling restricted?",
+            "Does your child love the thrill of danger?",
+            "Does your child have recurrent bed wetting?",
+            "Does your child often show overconfidence or not want help from others?",
+            "Does your child have explosive anger when upset?",
+            "Does your child crave stimulants like sugar, soda, or butter?"
+        ],
+        "Fire": [
+            "Does your child love being around other people and enjoy attention?",
+            "Does your child often change moods quickly?",
+            "Does your child have difficulty falling asleep?",
+            "Does your child get distracted easily by changes around them?",
+            "Is your child easily panicked or upset by small issues?",
+            "Does your child complain of being bored often?",
+            "Does your child tend to act impulsively or unpredictably?",
+            "Does your child get flushed or sweat a lot?",
+            "Does your child experience diarrhea or stomach discomfort often?",
+            "Does your child crave sweets, spicy food, or ice?"
+        ],
+        "Earth": [
+            "Is your child caring and always thinking about others?",
+            "Does your child overeat?",
+            "Does your child prefer being with other people rather than alone?",
+            "Does your child have trouble setting boundaries or respecting personal space?",
+            "Does your child feel anxious when away from loved ones or when not feeling accepted?",
+            "Is your child sometimes whiny, needy, or clingy?",
+            "Is your child disorganized?",
+            "Does your child often socialize excessively?",
+            "Does your child crave sweets and carbohydrates like sugar or bread?",
+            "Does your child have stomach aches or indigestion?"
+        ],
+        "Metal": [
+            "Does your child like having a routine and dislike surprises or changes?",
+            "Does your child crave unusual food?",
+            "Does your child get upset when they make mistakes or when things go wrong?",
+            "Does your child like things to be orderly and tidy?",
+            "Does your child tend to blame others when something goes wrong?",
+            "Does your child get extremely cold easily?",
+            "Is your child very sensitive to smells, tastes, or textures?",
+            "Does your child experience dry skin or hair?",
+            "Does your child have stiff joints?",
+            "Does your child experience constipation?"
+        ],
+        "Water": [
+            "Does your child have a big imagination and enjoy daydreaming?",
+            "Does your child feel comfortable being alone?",
+            "Does your child have trouble finishing tasks or feel like giving up?",
+            "Does your child take their time doing things?",
+            "Does your child have negative thoughts or get stuck in a negative mood?",
+            "Does your child struggle with being motivated to do things?",
+            "Does your child have difficulty expressing their ideas or emotions?",
+            "Does your child have a strong memory?",
+            "Does your child experience backaches or low physical stamina?",
+            "Does your child crave salty meats or hot foods?"
+        ]
+    };
+
+    function createQuiz() {
+        const quizContainer = document.getElementById("questions");
+        for (let element in questions) {
+            const header = document.createElement("h3");
+            header.textContent = element + " Element";
+            quizContainer.appendChild(header);
+
+            questions[element].forEach((question, index) => {
+                const questionDiv = document.createElement("div");
+                questionDiv.classList.add("question");
+                questionDiv.innerHTML = `
+                    <label>${question}</label><br>
+                    <input type="radio" name="${element}-${index}" value="1" required> 1 (Rarely)
+                    <input type="radio" name="${element}-${index}" value="2"> 2 (Sometimes)
+                    <input type="radio" name="${element}-${index}" value="3"> 3 (Very Often)
+                `;
+                quizContainer.appendChild(questionDiv);
+            });
+        }
+    }
+
+    function calculateResults(event) {
+        event.preventDefault();
+
+        let scores = { Wood: 0, Fire: 0, Earth: 0, Metal: 0, Water: 0 };
+
+        const formData = new FormData(event.target);
+        for (let [key, value] of formData.entries()) {
+            const element = key.split("-")[0];
+            scores[element] += parseInt(value);
+        }
+
+        const highestElement = Object.keys(scores).reduce((a, b) => (scores[a] > scores[b] ? a : b));
+
+        let recommendations = {
+            "Wood": "Encourage movement, leadership, and hands-on activities like martial arts and crafting.",
+            "Fire": "Use engaging visuals, team sports, and role-playing to nurture creativity and social skills.",
+            "Earth": "Provide structure, group activities, and teamwork-based learning experiences.",
+            "Metal": "Ensure organization, use structured schedules, and incorporate problem-solving activities.",
+            "Water": "Give quiet time, encourage creativity, and support independent work."
+        };
+
+        document.getElementById("result").innerHTML = `Dominant Element: <strong>${highestElement}</strong><br> ${recommendations[highestElement]}`;
+        document.getElementById("result").style.display = "block";
+    }
+
+    document.getElementById("quiz-form").addEventListener("submit", calculateResults);
+    createQuiz();
+</script>
+
+</body>
+</html>
