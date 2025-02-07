@@ -5,19 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Child Element Quiz</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .container { max-width: 600px; margin: auto; }
-        .question { margin-bottom: 10px; }
-        .result { display: none; margin-top: 20px; font-weight: bold; }
+        body { font-family: Arial, sans-serif; margin: 20px; text-align: center; background-color: #f8f9fa; }
+        .container { max-width: 700px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px #ccc; }
+        .question { margin-bottom: 15px; text-align: left; }
+        h2 { color: #4CAF50; }
+        .result { display: none; margin-top: 20px; font-weight: bold; padding: 15px; border-radius: 10px; background: #ffebcd; text-align: left; }
+        .btn { background: #4CAF50; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 5px; }
+        img { width: 150px; display: block; margin: auto; margin-bottom: 20px; }
     </style>
 </head>
 <body>
+
+<!-- Spectra Cure Clinic Logo -->
+<img src="YOUR_IMAGE_URL_HERE" alt="Spectra Cure Clinic Logo">
 
 <div class="container">
     <h2>Child Element Personality Quiz</h2>
     <form id="quiz-form">
         <div id="questions"></div>
-        <button type="submit">Get Results</button>
+        <button type="submit" class="btn">Get Results / احصل على النتائج</button>
     </form>
     <div class="result" id="result"></div>
 </div>
@@ -25,81 +31,70 @@
 <script>
     const questions = {
         "Wood": [
-            "Does your child enjoy trying new things and taking on challenges?",
-            "Does your child learn physically?",
-            "Does your child twitch and squirm?",
-            "Does your child dislike being told what to do or feeling restricted?",
-            "Does your child love the thrill of danger?",
-            "Does your child have recurrent bed wetting?",
-            "Does your child often show overconfidence or not want help from others?",
-            "Does your child have explosive anger when upset?",
-            "Does your child crave stimulants like sugar, soda, or butter?"
+            ["Does your child enjoy trying new things and taking on challenges?", "هل يحب طفلك تجربة أشياء جديدة وخوض التحديات؟"],
+            ["Does your child love movement and physical activities?", "هل يحب طفلك الأنشطة البدنية والحركة؟"]
         ],
         "Fire": [
-            "Does your child love being around other people and enjoy attention?",
-            "Does your child often change moods quickly?",
-            "Does your child have difficulty falling asleep?",
-            "Does your child get distracted easily by changes around them?",
-            "Is your child easily panicked or upset by small issues?",
-            "Does your child complain of being bored often?",
-            "Does your child tend to act impulsively or unpredictably?",
-            "Does your child get flushed or sweat a lot?",
-            "Does your child experience diarrhea or stomach discomfort often?",
-            "Does your child crave sweets, spicy food, or ice?"
+            ["Does your child love being around people and enjoy attention?", "هل يحب طفلك أن يكون بين الناس ويستمتع بالاهتمام؟"],
+            ["Does your child have a playful and energetic personality?", "هل يتمتع طفلك بشخصية مرحة ومليئة بالطاقة؟"]
         ],
         "Earth": [
-            "Is your child caring and always thinking about others?",
-            "Does your child overeat?",
-            "Does your child prefer being with other people rather than alone?",
-            "Does your child have trouble setting boundaries or respecting personal space?",
-            "Does your child feel anxious when away from loved ones or when not feeling accepted?",
-            "Is your child sometimes whiny, needy, or clingy?",
-            "Is your child disorganized?",
-            "Does your child often socialize excessively?",
-            "Does your child crave sweets and carbohydrates like sugar or bread?",
-            "Does your child have stomach aches or indigestion?"
+            ["Is your child caring and thoughtful towards others?", "هل طفلك عطوف ويهتم بالآخرين؟"],
+            ["Does your child prefer working in groups rather than alone?", "هل يفضل طفلك العمل في مجموعات بدلًا من العمل منفردًا؟"]
         ],
         "Metal": [
-            "Does your child like having a routine and dislike surprises or changes?",
-            "Does your child crave unusual food?",
-            "Does your child get upset when they make mistakes or when things go wrong?",
-            "Does your child like things to be orderly and tidy?",
-            "Does your child tend to blame others when something goes wrong?",
-            "Does your child get extremely cold easily?",
-            "Is your child very sensitive to smells, tastes, or textures?",
-            "Does your child experience dry skin or hair?",
-            "Does your child have stiff joints?",
-            "Does your child experience constipation?"
+            ["Does your child like having a routine and dislike surprises?", "هل يحب طفلك الروتين ويكره المفاجآت؟"],
+            ["Is your child detail-oriented and organized?", "هل طفلك دقيق ومنظم؟"]
         ],
         "Water": [
-            "Does your child have a big imagination and enjoy daydreaming?",
-            "Does your child feel comfortable being alone?",
-            "Does your child have trouble finishing tasks or feel like giving up?",
-            "Does your child take their time doing things?",
-            "Does your child have negative thoughts or get stuck in a negative mood?",
-            "Does your child struggle with being motivated to do things?",
-            "Does your child have difficulty expressing their ideas or emotions?",
-            "Does your child have a strong memory?",
-            "Does your child experience backaches or low physical stamina?",
-            "Does your child crave salty meats or hot foods?"
+            ["Does your child have a big imagination and love to dream?", "هل لدى طفلك خيال واسع ويحب الأحلام؟"],
+            ["Does your child prefer quiet, peaceful environments?", "هل يفضل طفلك البيئات الهادئة والمسالمة؟"]
         ]
+    };
+
+    const resultsData = {
+        "Wood": {
+            "traits": "Energetic, curious, strong-willed, quick to act.",
+            "encouragement": "Encourage activities like hiking, martial arts, and hands-on learning.",
+            "careers": "Entrepreneur, emergency responder, doctor, lawyer, artist."
+        },
+        "Fire": {
+            "traits": "Excitable, social, playful, optimistic.",
+            "encouragement": "Use team sports, role-playing, and creative arts like dance and acting.",
+            "careers": "Teacher, journalist, chef, musician, daycare worker."
+        },
+        "Earth": {
+            "traits": "Caring, kind, thoughtful, loves teamwork.",
+            "encouragement": "Encourage group activities, storytelling, and structured routines.",
+            "careers": "Teacher, social worker, nurse, artist."
+        },
+        "Metal": {
+            "traits": "Organized, careful, detail-oriented.",
+            "encouragement": "Provide structured schedules, problem-solving games, and hands-on crafts.",
+            "careers": "Engineer, accountant, scientist, architect."
+        },
+        "Water": {
+            "traits": "Imaginative, quiet, reflective, loves deep thinking.",
+            "encouragement": "Encourage writing, drawing, and solo creative projects.",
+            "careers": "Writer, psychologist, artist, researcher."
+        }
     };
 
     function createQuiz() {
         const quizContainer = document.getElementById("questions");
         for (let element in questions) {
             const header = document.createElement("h3");
-            header.textContent = element + " Element";
+            header.textContent = element + " Element / عنصر " + element;
             quizContainer.appendChild(header);
 
-            questions[element].forEach((question, index) => {
+            questions[element].forEach((q, index) => {
                 const questionDiv = document.createElement("div");
                 questionDiv.classList.add("question");
                 questionDiv.innerHTML = `
-                    <label>${question}</label><br>
-                    <input type="radio" name="${element}-${index}" value="1" required> 1 (Rarely)
-                    <input type="radio" name="${element}-${index}" value="2"> 2 (Sometimes)
-                    <input type="radio" name="${element}-${index}" value="3"> 3 (Very Often)
+                    <label>${q[0]}<br><strong>${q[1]}</strong></label><br>
+                    <input type="radio" name="${element}-${index}" value="1" required> 1 (Rarely) / نادرًا
+                    <input type="radio" name="${element}-${index}" value="2"> 2 (Sometimes) / أحيانًا
+                    <input type="radio" name="${element}-${index}" value="3"> 3 (Very Often) / غالبًا
                 `;
                 quizContainer.appendChild(questionDiv);
             });
@@ -119,16 +114,14 @@
 
         const highestElement = Object.keys(scores).reduce((a, b) => (scores[a] > scores[b] ? a : b));
 
-        let recommendations = {
-            "Wood": "Encourage movement, leadership, and hands-on activities like martial arts and crafting.",
-            "Fire": "Use engaging visuals, team sports, and role-playing to nurture creativity and social skills.",
-            "Earth": "Provide structure, group activities, and teamwork-based learning experiences.",
-            "Metal": "Ensure organization, use structured schedules, and incorporate problem-solving activities.",
-            "Water": "Give quiet time, encourage creativity, and support independent work."
-        };
-
-        document.getElementById("result").innerHTML = `Dominant Element: <strong>${highestElement}</strong><br> ${recommendations[highestElement]}`;
-        document.getElementById("result").style.display = "block";
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = `
+            <h3>Dominant Element: ${highestElement} / العنصر المسيطر: ${highestElement}</h3>
+            <p><strong>Traits:</strong> ${resultsData[highestElement].traits}</p>
+            <p><strong>Encouragement:</strong> ${resultsData[highestElement].encouragement}</p>
+            <p><strong>Potential Careers:</strong> ${resultsData[highestElement].careers}</p>
+        `;
+        resultDiv.style.display = "block";
     }
 
     document.getElementById("quiz-form").addEventListener("submit", calculateResults);
