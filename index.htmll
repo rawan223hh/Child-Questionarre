@@ -5,128 +5,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Child Element Quiz</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; text-align: center; background-color: #f8f9fa; }
-        .container { max-width: 700px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px #ccc; }
-        .question { margin-bottom: 15px; text-align: left; }
-        h2 { color: #4CAF50; }
-        .result { display: none; margin-top: 20px; font-weight: bold; padding: 15px; border-radius: 10px; background: #ffebcd; text-align: left; }
-        .btn { background: #4CAF50; color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 5px; }
-        img { width: 150px; display: block; margin: auto; margin-bottom: 20px; }
+        body { font-family: Arial, sans-serif; margin: 20px; direction: rtl; text-align: right; }
+        .container { max-width: 600px; margin: auto; }
+        h2 { text-align: center; }
+        .question { margin-bottom: 15px; }
+        .result { display: none; padding: 15px; background: #f4f4f4; margin-top: 20px; }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h2>استبيان عناصر الطفل / Child Element Questionnaire</h2>
+        <form id="quiz-form">
+            <div id="questions"></div>
+            <button type="submit">إرسال / Submit</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
 
-<!-- Spectra Cure Clinic Logo -->
-<img src="YOUR_IMAGE_URL_HERE" alt="Spectra Cure Clinic Logo">
+    <script>
+        const elements = {
+            Wood: {
+                traits: "نشط، فضولي، قوي الإرادة، سريع التصرف، يحب الفوز، يتعلم بالممارسة، يحب المخاطر. / Energetic, curious, strong-willed, quick to act, loves to win, learns by doing, loves danger.",
+                careers: "رائد أعمال، مستجيب للطوارئ، طبيب، فنان، محامٍ، معلم. / Entrepreneur, Emergency Responder, Medical Careers, Artist, Lawyer, Teacher.",
+                advice: "زيادة شرب الماء، ممارسة التمارين، تجربة فنون القتال والقيادة. / Drink more water, practice exercises, explore martial arts and leadership.",
+                questions: [
+                    "هل يستمتع طفلك بتجربة أشياء جديدة ويحب التحديات / Does your child enjoy trying new things and taking on challenges",
+                    "هل يتعلم طفلك من خلال النشاط البدني / Does your child learn physically",
+                    "هل يحب طفلك إثارة المخاطر / Does your child love the thrill of danger",
+                    "Do you like to push boundaries"
+                ]
+            },
+            Fire: {
+                traits: "حماسي، اجتماعي، مفعم بالطاقة، مرح، مضحك، متفائل. / Excitable, social, full of energy, playful, funny, optimistic.",
+                careers: "معلم، صحفي، طاهٍ، عامل حضانة. / Teacher, Journalist, Chef, Daycare Worker.",
+                advice: "تشجيع الأنشطة الاجتماعية، استخدام الألعاب التفاعلية، تعزيز مهارات التعبير. / Encourage social activities, use interactive games, enhance expressive skills.",
+                questions: [
+                    "هل يحب طفلك التواجد حول الآخرين / Does your child love being around other people",
+                    "هل تتغير مزاجات طفلك بسرعة / Does your child often change moods quickly",
+                    "هل يعاني طفلك من صعوبة في النوم / Does your child have difficulty falling asleep"
+                ]
+            },
+            Earth: {
+                traits: "حنون، مفكر، مخلص، أحيانًا قلق. / Caring, kind, thoughtful, loyal, sometimes worried and anxious.",
+                careers: "أخصائي اجتماعي، معلم، فنان، طبيب. / Social Worker, Teacher, Artist, Healthcare Professional.",
+                advice: "تشجيع التعاون، ممارسة الأنشطة الإبداعية، توفير بيئة داعمة. / Encourage teamwork, engage in creative activities, provide a supportive environment.",
+                questions: [
+                    "هل يهتم طفلك دائمًا بالآخرين / Is your child caring and always thinking about others",
+                    "هل طفلك يأكل بكثرة / Does your child overeat",
+                    "هل يفضل طفلك التواجد مع الآخرين بدلاً من البقاء بمفرده / Does your child prefer being with other people rather than alone"
+                ]
+            },
+            Metal: {
+                traits: "منظم، دقيق، يركز على التفاصيل. / Organized, careful, detail-focused.",
+                careers: "مهندس، محاسب، معمار، عالم. / Engineer, Accountant, Architect, Scientist.",
+                advice: "تعزيز التفكير المنطقي، توفير تحديات ذهنية، دعم التنظيم. / Encourage logical thinking, provide mental challenges, support organization.",
+                questions: [
+                    "هل يحب طفلك الروتين ويكره المفاجآت / Does your child like having a routine and dislike surprises or changes",
+                    "هل يشتهي طفلك أطعمة غير عادية / Does your child crave unusual food",
+                    "هل ينزعج طفلك عند ارتكاب الأخطاء / Does your child get upset when they make mistakes or when things go wrong"
+                ]
+            },
+            Water: {
+                traits: "خيالي، هادئ، يحب الأحلام، يأخذ وقته. / Imaginative, quiet, loves to dream, takes time.",
+                careers: "كاتب، فنان، موسيقي، طبيب نفسي. / Writer, Artist, Musician, Psychologist.",
+                advice: "تعزيز الإبداع، تقديم أنشطة استرخاء، تشجيع الكتابة والرسم. / Foster creativity, provide relaxation activities, encourage writing and drawing.",
+                questions: [
+                    "هل لدى طفلك خيال واسع ويحب أحلام اليقظة / Does your child have a big imagination and enjoy daydreaming",
+                    "هل يشعر طفلك بالراحة عند البقاء بمفرده / Does your child feel comfortable being alone",
+                    "هل يواجه طفلك صعوبة في إنهاء المهام / Does your child have trouble finishing tasks or feel like giving up"
+                ]
+            }
+        };
 
-<div class="container">
-    <h2>Child Element Personality Quiz</h2>
-    <form id="quiz-form">
-        <div id="questions"></div>
-        <button type="submit" class="btn">Get Results / احصل على النتائج</button>
-    </form>
-    <div class="result" id="result"></div>
-</div>
-
-<script>
-    const questions = {
-        "Wood": [
-            ["Does your child enjoy trying new things and taking on challenges?", "هل يحب طفلك تجربة أشياء جديدة وخوض التحديات؟"],
-            ["Does your child love movement and physical activities?", "هل يحب طفلك الأنشطة البدنية والحركة؟"]
-        ],
-        "Fire": [
-            ["Does your child love being around people and enjoy attention?", "هل يحب طفلك أن يكون بين الناس ويستمتع بالاهتمام؟"],
-            ["Does your child have a playful and energetic personality?", "هل يتمتع طفلك بشخصية مرحة ومليئة بالطاقة؟"]
-        ],
-        "Earth": [
-            ["Is your child caring and thoughtful towards others?", "هل طفلك عطوف ويهتم بالآخرين؟"],
-            ["Does your child prefer working in groups rather than alone?", "هل يفضل طفلك العمل في مجموعات بدلًا من العمل منفردًا؟"]
-        ],
-        "Metal": [
-            ["Does your child like having a routine and dislike surprises?", "هل يحب طفلك الروتين ويكره المفاجآت؟"],
-            ["Is your child detail-oriented and organized?", "هل طفلك دقيق ومنظم؟"]
-        ],
-        "Water": [
-            ["Does your child have a big imagination and love to dream?", "هل لدى طفلك خيال واسع ويحب الأحلام؟"],
-            ["Does your child prefer quiet, peaceful environments?", "هل يفضل طفلك البيئات الهادئة والمسالمة؟"]
-        ]
-    };
-
-    const resultsData = {
-        "Wood": {
-            "traits": "Energetic, curious, strong-willed, quick to act.",
-            "encouragement": "Encourage activities like hiking, martial arts, and hands-on learning.",
-            "careers": "Entrepreneur, emergency responder, doctor, lawyer, artist."
-        },
-        "Fire": {
-            "traits": "Excitable, social, playful, optimistic.",
-            "encouragement": "Use team sports, role-playing, and creative arts like dance and acting.",
-            "careers": "Teacher, journalist, chef, musician, daycare worker."
-        },
-        "Earth": {
-            "traits": "Caring, kind, thoughtful, loves teamwork.",
-            "encouragement": "Encourage group activities, storytelling, and structured routines.",
-            "careers": "Teacher, social worker, nurse, artist."
-        },
-        "Metal": {
-            "traits": "Organized, careful, detail-oriented.",
-            "encouragement": "Provide structured schedules, problem-solving games, and hands-on crafts.",
-            "careers": "Engineer, accountant, scientist, architect."
-        },
-        "Water": {
-            "traits": "Imaginative, quiet, reflective, loves deep thinking.",
-            "encouragement": "Encourage writing, drawing, and solo creative projects.",
-            "careers": "Writer, psychologist, artist, researcher."
-        }
-    };
-
-    function createQuiz() {
-        const quizContainer = document.getElementById("questions");
-        for (let element in questions) {
-            const header = document.createElement("h3");
-            header.textContent = element + " Element / عنصر " + element;
-            quizContainer.appendChild(header);
-
-            questions[element].forEach((q, index) => {
-                const questionDiv = document.createElement("div");
-                questionDiv.classList.add("question");
-                questionDiv.innerHTML = `
-                    <label>${q[0]}<br><strong>${q[1]}</strong></label><br>
-                    <input type="radio" name="${element}-${index}" value="1" required> 1 (Rarely) / نادرًا
-                    <input type="radio" name="${element}-${index}" value="2"> 2 (Sometimes) / أحيانًا
-                    <input type="radio" name="${element}-${index}" value="3"> 3 (Very Often) / غالبًا
-                `;
-                quizContainer.appendChild(questionDiv);
+        function populateQuestions() {
+            const questionsDiv = document.getElementById('questions');
+            Object.keys(elements).forEach(element => {
+                const header = document.createElement('h3');
+                header.textContent = `${element} - ${elements[element].traits}`;
+                questionsDiv.appendChild(header);
+                elements[element].questions.forEach(question => {
+                    const div = document.createElement('div');
+                    div.className = 'question';
+                    div.innerHTML = `<label>${question}</label>
+                        <select name="${element}" required>
+                            <option value="1">Rarely</option>
+                            <option value="2">Sometimes</option>
+                            <option value="3">Very Often</option>
+                        </select>`;
+                    questionsDiv.appendChild(div);
+                });
             });
         }
-    }
 
-    function calculateResults(event) {
-        event.preventDefault();
-
-        let scores = { Wood: 0, Fire: 0, Earth: 0, Metal: 0, Water: 0 };
-
-        const formData = new FormData(event.target);
-        for (let [key, value] of formData.entries()) {
-            const element = key.split("-")[0];
-            scores[element] += parseInt(value);
-        }
-
-        const highestElement = Object.keys(scores).reduce((a, b) => (scores[a] > scores[b] ? a : b));
-
-        const resultDiv = document.getElementById("result");
-        resultDiv.innerHTML = `
-            <h3>Dominant Element: ${highestElement} / العنصر المسيطر: ${highestElement}</h3>
-            <p><strong>Traits:</strong> ${resultsData[highestElement].traits}</p>
-            <p><strong>Encouragement:</strong> ${resultsData[highestElement].encouragement}</p>
-            <p><strong>Potential Careers:</strong> ${resultsData[highestElement].careers}</p>
-        `;
-        resultDiv.style.display = "block";
-    }
-
-    document.getElementById("quiz-form").addEventListener("submit", calculateResults);
-    createQuiz();
-</script>
-
+        document.getElementById('quiz-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const scores = { Wood: 0, Fire: 0, Earth: 0, Metal: 0, Water: 0 };
+            
+            formData.forEach((value, key) => {
+                scores[key] += parseInt(value);
+            });
+            
+            const dominantElement = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+            
+            document.getElementById('result').innerHTML = `<strong>العنصر المسيطر:</strong> ${dominantElement} <br>
+                <strong>الصفات:</strong> ${elements[dominantElement].traits} <br>
+                <strong>النصائح:</strong> ${elements[dominantElement].advice} <br>
+                <strong>المهن المحتملة:</strong> ${elements[dominantElement].careers}`;
+            document.getElementById('result').style.display = 'block';
+        });
+        
+        document.addEventListener('DOMContentLoaded', populateQuestions);
+    </script>
 </body>
 </html>
